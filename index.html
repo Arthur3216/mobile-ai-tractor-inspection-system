@@ -195,7 +195,14 @@ button.addEventListener("click", async () => {
       document.getElementById("notes").value
     );
 
-    result.textContent = report;
+    result.textContent = report
+  .replace(/^#{1,6}\s+/gm, "")
+  .replace(/\*\*/g, "")
+  .replace(/^---\s*$/gm, "")
+  .replace(/^\s*\*\s+/gm, "• ");
+result.style.lineHeight = "1.7";
+result.style.overflowWrap = "anywhere";
+
   } catch (error) {
     result.textContent = "Analysis failed: " + error.message;
   } finally {
