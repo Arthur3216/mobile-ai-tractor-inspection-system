@@ -152,13 +152,18 @@ footer {
   AgriTech Research Project | 2026
 </footer>
 
+
 <script type="module">
+import { analyzeEquipment } from "./ai-inspection.js";
+
 const photo = document.getElementById("photo");
 const preview = document.getElementById("preview");
 const result = document.getElementById("result");
+const button = document.getElementById("analyze");
+
 let previewUrl;
 
-photo.addEventListener("change", function () {
+photo.addEventListener("change", () => {
   if (previewUrl) URL.revokeObjectURL(previewUrl);
   const file = photo.files[0];
 
@@ -172,19 +177,33 @@ photo.addEventListener("change", function () {
   }
 });
 
-document.getElementById("analyze")
-  .addEventListener("click", function () {
-    if (!photo.files[0]) {
-      result.textContent =
-        "Please upload an equipment photo first.";
-      return;
-    }
+button.addEventListener("click", async () => {
+  if (!photo.files[0]) {
+    result.textContent = "Please upload an equipment photo first.";
+    return;
+  }
 
-    result.textContent =
-      "Photo received. AI integration is pending. " +
-      "No equipment analysis has been performed.";
-  });
+  button.disabled = true;
+  result.textContent = "AI analysis in progress...";
+  result.style.whiteSpace = "pre-wrap";
+
+  try {
+    const report = await analyzeEquipment(
+      photo.files[0],
+      document.getElementById("model").value,
+      document.getElementById("area").value,
+      document.getElementById("notes").value
+    );
+
+    result.textContent = report;
+  } catch (error) {
+    result.textContent = "Analysis failed: " + error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
 </script>
+
 
 </body>
 </html>
