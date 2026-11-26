@@ -31,7 +31,7 @@ const ai = getAI(app, {
 });
 
 const model = getGenerativeModel(ai, {
-  model: "gemini-3.8-flash"
+  model: "gemini-3.5-flash-lite"
 });
 
 function readPhoto(file) {
