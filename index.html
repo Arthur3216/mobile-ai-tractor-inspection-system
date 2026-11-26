@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile AI Tractor Inspection</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f5f1;
+  color: #26352c;
+}
+header {
+  background: #193b2b;
+  color: white;
+  padding: 35px 20px;
+  text-align: center;
+}
+header h1 {
+  font-size: 28px;
+  margin: 12px 0;
+}
+header p {
+  color: #c9ddcd;
+  line-height: 1.5;
+}
+.tag {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #b9d99e;
+}
+main {
+  max-width: 760px;
+  margin: 25px auto;
+  padding: 0 16px;
+}
+.panel {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #dce5db;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin: 18px 0 8px;
+}
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccd7cc;
+  border-radius: 6px;
+  font: inherit;
+}
+textarea { min-height: 100px; }
+button {
+  width: 100%;
+  padding: 15px;
+  background: #367744;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 22px;
+  cursor: pointer;
+}
+button:hover { background: #285d34; }
+#preview {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  margin-top: 15px;
+  display: none;
+}
+#result {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+.note {
+  font-size: 13px;
+  color: #657269;
+  line-height: 1.5;
+}
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #657269;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">AGRITECH | AI INSPECTION</div>
+  <h1>Mobile AI Tractor Inspection</h1>
+  <p>AI-assisted agricultural equipment inspection and preventive maintenance reporting.</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>New Equipment Inspection</h2>
+
+    <label for="model">Tractor make and model</label>
+    <input id="model" type="text"
+      placeholder="Enter tractor make and model">
+
+    <label for="area">Inspection area</label>
+    <select id="area">
+      <option>General visual inspection</option>
+      <option>Engine compartment</option>
+      <option>Hydraulic system</option>
+      <option>Tires and wheels</option>
+      <option>Electrical components</option>
+      <option>Exterior and body</option>
+    </select>
+
+    <label for="photo">Upload equipment photo</label>
+    <input id="photo" type="file"
+      accept="image/jpeg,image/png,image/webp">
+    <img id="preview" alt="Equipment photo preview">
+
+    <label for="notes">Additional observations</label>
+    <textarea id="notes"
+      placeholder="Describe visible issues or observations"></textarea>
+
+    <button id="analyze">Analyze Equipment</button>
+
+    <p class="note">
+      AI-assisted visual screening only.
+      Results do not establish equipment safety
+      or replace a qualified technician.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2>Inspection Report</h2>
+    <div id="result" role="status">
+      Your inspection report will appear here.
+    </div>
+  </section>
+</main>
+
+<footer>
+  Mobile AI Tractor Inspection System<br>
+  Developed by Arthur Bilianivskyi<br>
+  AgriTech Research Project | 2026
+</footer>
+
+<script>
+const photo = document.getElementById("photo");
+const preview = document.getElementById("preview");
+const result = document.getElementById("result");
+let previewUrl;
+
+photo.addEventListener("change", function () {
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  const file = photo.files[0];
+
+  if (file) {
+    previewUrl = URL.createObjectURL(file);
+    preview.src = previewUrl;
+    preview.style.display = "block";
+  } else {
+    preview.removeAttribute("src");
+    preview.style.display = "none";
+  }
+});
+
+document.getElementById("analyze")
+  .addEventListener("click", function () {
+    if (!photo.files[0]) {
+      result.textContent =
+        "Please upload an equipment photo first.";
+      return;
+    }
+
+    result.textContent =
+      "Photo received. AI integration is pending. " +
+      "No equipment analysis has been performed.";
+  });
+</script>
+
+</body>
+</html>
